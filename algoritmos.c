@@ -69,7 +69,7 @@ void selectionSort(int vetor[], int tam) {
     }
 
     printf("Número de Comparações: %lld\n", comparacoes);
-    printf("Número de Trocas: %lld\n", movimentos);
+    printf("Número de Movimentos: %lld\n", movimentos);
 }
 
 
@@ -100,7 +100,7 @@ void insertionSort(int vetor[], int tam) {
     }
 
     printf("Número de Comparações: %lld\n", comparacoes);
-    printf("Número de Trocas: %lld\n", movimentos);
+    printf("Número de Movimentos: %lld\n", movimentos);
 }
 
 /*
@@ -157,45 +157,88 @@ void shellSort(int vetor[], int tamv) {
             movimentos++;
         }
     }
+    
+    printf("Número de Comparações: %lld\n", comparacoes);
+    printf("Número de Movimentos: %lld\n", movimentos);
 }
 // =-=-=- Fim do Espaço Shell Sort -=-=-=
 
 //=-=-=- Espaço QuickSort abaixo -=-=-=
-int particiona(int vetor[], int inicio, int fim, int *comp, int *mov) {
+int particiona(int vetor[], int inicio, int fim, ll *comp, ll *mov) {
+
     // Mediana de 3 para escolher o pivô
     int meio = (inicio + fim) / 2;
-    if (vetor[inicio] > vetor[meio]) { (*comp)++; swap(&vetor[inicio], &vetor[meio]); (*mov)+=3; }
-    if (vetor[inicio] > vetor[fim]) { (*comp)++; swap(&vetor[inicio], &vetor[fim]); (*mov)+=3; }
-    if (vetor[meio] > vetor[fim]) { (*comp)++; swap(&vetor[meio], &vetor[fim]); (*mov)+=3; }
+    if (vetor[inicio] > vetor[meio]) { 
+
+        (*comp)++;
+
+        swap(&vetor[inicio], &vetor[meio]);
+        (*mov) += 3; 
+    }
+
+    if (vetor[inicio] > vetor[fim]) {
+
+        (*comp)++;
+        
+        swap(&vetor[inicio], &vetor[fim]);
+        (*mov) += 3;
+    }
+
+    if (vetor[meio] > vetor[fim]) {
+
+        (*comp)++;
+        
+        swap(&vetor[meio], &vetor[fim]); 
+        (*mov) += 3; 
+    }
     
     int pivo = vetor[meio];
     swap(&vetor[meio], &vetor[fim - 1]); // Coloca o pivô em fim-1
-    (*mov)+=3;
+    (*mov) += 3;
 
     int i = inicio;
     int j = fim - 1;
     
     while(1) {
-        while(vetor[++i] < pivo) { (*comp)++; }
+
+        while(vetor[i] < pivo) { 
+
+            (*comp)++; 
+            i++;
+        }
         (*comp)++;
-        while(vetor[--j] > pivo) { (*comp)++; }
+
+        while(vetor[j] > pivo) {
+
+            (*comp)++; 
+            j--;
+        }
         (*comp)++;
+
         if (i < j) {
+
             swap(&vetor[i], &vetor[j]);
-            (*mov)+=3;
-        } else {
+            (*mov) += 3;
+
+            i++;
+            j--;
+        } 
+        
+        else {
             break;
         }
     }
     
     swap(&vetor[i], &vetor[fim-1]); // Restaura o pivô
-    (*mov)+=3;
+    (*mov) += 3;
     
     return i;
 }
 
-void quickSort_recursivo(int vetor[], int inicio, int fim, int *comparacoes, int *movimentos) {
+void quickSort_recursivo(int vetor[], int inicio, int fim, ll *comparacoes, ll *movimentos) {
+
     if (inicio < fim) {
+
         int pivo_idx = particiona(vetor, inicio, fim, comparacoes, movimentos);
         quickSort_recursivo(vetor, inicio, pivo_idx - 1, comparacoes, movimentos);
         quickSort_recursivo(vetor, pivo_idx + 1, fim, comparacoes, movimentos);
@@ -203,14 +246,14 @@ void quickSort_recursivo(int vetor[], int inicio, int fim, int *comparacoes, int
 }
 
 void quickSort(int vetor[], int tam) {
-    int comparacoes = 0, movimentos = 0;
+
+    ll comparacoes = 0, movimentos = 0;
     quickSort_recursivo(vetor, 0, tam - 1, &comparacoes, &movimentos);
-    printf("Número de Comparações: %d\n", comparacoes);
-    printf("Número de Trocas: %d\n", movimentos);
+
+    printf("Número de Comparações: %lld\n", comparacoes);
+    printf("Número de Movimentos: %lld\n", movimentos);
 }
 // =-=-=- Fim do Espaço QuickSort -=-=-=
-
-
 
 //=-=-=- Espaço heapSort abaixo -=-=-=
 void heapDown(int vetor[], int pai, int tam) {
