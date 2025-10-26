@@ -45,11 +45,18 @@ int main() {
 
         default: printf("Opção inválida.\n");
     }
-    
-    
 
+    int correto = 1;
+    for (int i = 1; i < tam; i++) {
 
-    for (int i = 0; i < tam; i++)
         printf("%d ", vet[i]);
+
+        if (vet[i-1] > vet[i]) {
+            correto = 0;
+        }
+    }
     printf("\n");
+
+    if (correto) printf("Ordenação CORRETA!\n");
+    else printf("Ordenação ERRADA!\n");
 }
