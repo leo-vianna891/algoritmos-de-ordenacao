@@ -14,7 +14,9 @@ void swap (int *a, int *b) {
 
 
 
-//BubbleSort: Compara pares de elementos adjacentes e os troca se estiverem na ordem errada.
+/*
+BubbleSort: Compara pares de elementos adjacentes e os troca se estiverem na ordem errada.
+*/
 void bubbleSort(int vetor[], int tam) {
 
     ll comparacoes = 0, movimentos = 0;
@@ -47,22 +49,27 @@ void bubbleSort(int vetor[], int tam) {
 SelectionSort: Encontra o menor elemento e o coloca na primeira posição, repetindo para o restante do vetor.
 */
 void selectionSort(int vetor[], int tam) {
-    int comparacoes = 0, movimentos = 0;
+    
+    ll comparacoes = 0, movimentos = 0;
     for (int i = 0; i < tam - 1; i++) {
+
         int min_idx = i;
         for (int j = i + 1; j < tam; j++) {
+
             comparacoes++;
             if (vetor[j] < vetor[min_idx]) {
                 min_idx = j;
             }
         }
+        
         if (min_idx != i) {
             swap(&vetor[i], &vetor[min_idx]);
             movimentos += 3;
         }
     }
-    printf("Número de Comparações: %d\n", comparacoes);
-    printf("Número de Trocas: %d\n", movimentos);
+
+    printf("Número de Comparações: %lld\n", comparacoes);
+    printf("Número de Trocas: %lld\n", movimentos);
 }
 
 
@@ -72,7 +79,7 @@ Insertion: coloca o i-ésimo elemento na sua posição correta
 void insertionSort(int vetor[], int tam) {
 
     int j;
-    int comparacoes = 0, movimentos = 0;
+    ll comparacoes = 0, movimentos = 0;
     for (int i = 1; i < tam; i++) {
 
         int atual = vetor[i];
@@ -92,44 +99,66 @@ void insertionSort(int vetor[], int tam) {
         movimentos++;
     }
 
-    printf("Número de Comparações: %d\n", comparacoes);
-    printf("Número de Trocas: %d\n", movimentos);
+    printf("Número de Comparações: %lld\n", comparacoes);
+    printf("Número de Trocas: %lld\n", movimentos);
 }
 
+/*
+=-=-=- Espaço Shell Sort -=-=-=
+*/
+int calcula_tamh(int tamv) {
+
+    int h_atual = 1;
+    int contagem = 0;
+
+    // Encontra o maior incremento h que não alcança N/3
+    while (h_atual < tamv / 3) {
+        h_atual = 3 * h_atual + 1;
+        contagem++;
+    }
+    
+    // Retorna o número de incrementos que são menores que N
+    return contagem; 
+}
 
 void shellSort(int vetor[], int tamv) {
 
-    int tamh = log2(2*tamv + 1)/log2(3); 
+    //Cálculo da quantidade de incrementos que precisamos
+    int tamh = calcula_tamh(tamv); 
     int h[tamh];
 
-    //Incrementos necessários para o shellSort (explicação detalhada no relatório)
+    //Incrementos necessários (Knuth) para o shellSort (explicação detalhada no relatório)
     h[0] = 1;
     for (int i = 1; i < tamh; i++) {
         h[i] = 3*h[i-1] + 1;
     }
     
     //Algoritmo principal
-    int comparacoes = 0;
+    ll comparacoes = 0, movimentos = 0;
     for (int i = tamh - 1; i >= 0; i--) {
 
         int inc = h[i];
-        for (int j = inc; j < tamv; j += inc) {
+        for (int j = inc; j < tamv; j++) {
 
             int atual = vetor[j];
             int k = j;
             
-            comparacoes++;
-            while (k && vetor[k-1] > atual) {
+            while (k >= inc && vetor[k-inc] > atual) {
 
-                vetor[k] = vetor[k-1];
+                vetor[k] = vetor[k-inc];
                 k -= inc;
+
+                movimentos++;
+                comparacoes++;
             }
+            if (k >= inc) comparacoes++;
 
             vetor[k] = atual;
+            movimentos++;
         }
     }
 }
-
+// =-=-=- Fim do Espaço Shell Sort -=-=-=
 
 //=-=-=- Espaço QuickSort abaixo -=-=-=
 int particiona(int vetor[], int inicio, int fim, int *comp, int *mov) {
