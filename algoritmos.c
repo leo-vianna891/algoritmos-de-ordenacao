@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+typedef long long ll;
+
 void swap (int *a, int *b) {
 
     int aux = *a;
@@ -11,22 +13,34 @@ void swap (int *a, int *b) {
 }
 
 
-/*
-BubbleSort: Compara pares de elementos adjacentes e os troca se estiverem na ordem errada.
-*/
+
+//BubbleSort: Compara pares de elementos adjacentes e os troca se estiverem na ordem errada.
 void bubbleSort(int vetor[], int tam) {
-    int comparacoes = 0, movimentos = 0;
+
+    ll comparacoes = 0, movimentos = 0;
+
+    int troca;
     for (int i = 0; i < tam - 1; i++) {
+
+        troca = 0;
         for (int j = 0; j < tam - i - 1; j++) {
+            
             comparacoes++;
             if (vetor[j] > vetor[j+1]) {
+
                 swap(&vetor[j], &vetor[j+1]);
-                movimentos += 3; // 3 movimentos na função swap
+                movimentos += 3; // São 3 movimentos na função swap
+                troca = 1;
             }
+
         }
+
+        //Sem não tem trocas, o vetor está ordenado
+        if (!troca) break;
     }
-    printf("Número de Comparações: %d\n", comparacoes);
-    printf("Número de Trocas: %d\n", movimentos);
+    
+    printf("Número de Comparações: %lld\n", comparacoes);
+    printf("Número de Movimentos: %lld\n", movimentos);
 }
 
 /*
