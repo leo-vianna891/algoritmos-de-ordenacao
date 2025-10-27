@@ -195,7 +195,7 @@ int particiona(int vetor[], int inicio, int fim, ll *comp, ll *mov) {
     (*mov) += 3;
 
     int i = inicio;
-    int j = fim - 1;
+    int j = fim - 2;
     
     while(1) {
 
