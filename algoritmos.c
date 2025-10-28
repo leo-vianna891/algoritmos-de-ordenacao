@@ -1,5 +1,4 @@
 #include "fila.c"
-#include <stdio.h>
 #include <stdlib.h>
 
 typedef long long ll;
@@ -15,9 +14,7 @@ void swap (int *a, int *b) {
 /*
 BubbleSort: Compara pares de elementos adjacentes e os troca se estiverem na ordem errada.
 */
-void bubbleSort(int vetor[], int tam) {
-
-    ll comparacoes = 0, movimentos = 0;
+void bubbleSort(int vetor[], int tam, ll *comparacoes, ll *movimentos) {
 
     int troca;
     for (int i = 0; i < tam - 1; i++) {
@@ -25,11 +22,11 @@ void bubbleSort(int vetor[], int tam) {
         troca = 0;
         for (int j = 0; j < tam - i - 1; j++) {
             
-            comparacoes++;
+            (*comparacoes)++;
             if (vetor[j] > vetor[j+1]) {
 
                 swap(&vetor[j], &vetor[j+1]);
-                movimentos += 3; // São 3 movimentos na função swap
+                (*movimentos) += 3; // São 3 movimentos na função swap
                 troca = 1;
             }
 
@@ -38,23 +35,19 @@ void bubbleSort(int vetor[], int tam) {
         //Sem não tem trocas, o vetor está ordenado
         if (!troca) break;
     }
-    
-    printf("Número de Comparações: %lld\n", comparacoes);
-    printf("Número de Movimentos: %lld\n", movimentos);
 }
 
 /*
 SelectionSort: Encontra o menor elemento e o coloca na primeira posição, repetindo para o restante do vetor.
 */
-void selectionSort(int vetor[], int tam) {
+void selectionSort(int vetor[], int tam, ll *comparacoes, ll *movimentos) {
     
-    ll comparacoes = 0, movimentos = 0;
     for (int i = 0; i < tam - 1; i++) {
 
         int min_idx = i;
         for (int j = i + 1; j < tam; j++) {
 
-            comparacoes++;
+            (*comparacoes)++;
             if (vetor[j] < vetor[min_idx]) {
                 min_idx = j;
             }
@@ -62,22 +55,18 @@ void selectionSort(int vetor[], int tam) {
         
         if (min_idx != i) {
             swap(&vetor[i], &vetor[min_idx]);
-            movimentos += 3;
+            (*movimentos) += 3;
         }
     }
-
-    printf("Número de Comparações: %lld\n", comparacoes);
-    printf("Número de Movimentos: %lld\n", movimentos);
 }
 
 
 /*
 Insertion: coloca o i-ésimo elemento na sua posição correta
 */
-void insertionSort(int vetor[], int tam) {
+void insertionSort(int vetor[], int tam, ll *comparacoes, ll *movimentos) {
 
     int j;
-    ll comparacoes = 0, movimentos = 0;
     for (int i = 1; i < tam; i++) {
 
         int atual = vetor[i];
@@ -88,17 +77,14 @@ void insertionSort(int vetor[], int tam) {
             vetor[j] = vetor[j-1];
             j--;
 
-            comparacoes++;
-            movimentos++;
+            (*comparacoes)++;
+            (*movimentos)++;
         }
-        if (j) comparacoes++;
+        if (j) (*comparacoes)++;
 
         vetor[j] = atual;
-        movimentos++;
+        (*movimentos)++;
     }
-
-    printf("Número de Comparações: %lld\n", comparacoes);
-    printf("Número de Movimentos: %lld\n", movimentos);
 }
 
 /*
@@ -119,7 +105,7 @@ int calcula_tamh(int tamv) {
     return contagem; 
 }
 
-void shellSort(int vetor[], int tamv) {
+void shellSort(int vetor[], int tamv, ll *comparacoes, ll *movimentos) {
 
     //Cálculo da quantidade de incrementos que precisamos
     int tamh = calcula_tamh(tamv); 
@@ -132,7 +118,6 @@ void shellSort(int vetor[], int tamv) {
     }
     
     //Algoritmo principal
-    ll comparacoes = 0, movimentos = 0;
     for (int i = tamh - 1; i >= 0; i--) {
 
         int inc = h[i];
@@ -146,18 +131,15 @@ void shellSort(int vetor[], int tamv) {
                 vetor[k] = vetor[k-inc];
                 k -= inc;
 
-                movimentos++;
-                comparacoes++;
+                (*movimentos)++;
+                (*comparacoes)++;
             }
-            if (k >= inc) comparacoes++;
+            if (k >= inc) (*comparacoes)++;
 
             vetor[k] = atual;
-            movimentos++;
+            (*movimentos)++;
         }
     }
-    
-    printf("Número de Comparações: %lld\n", comparacoes);
-    printf("Número de Movimentos: %lld\n", movimentos);
 }
 // =-=-=- Fim do Espaço Shell Sort -=-=-=
 
@@ -243,13 +225,9 @@ void quickSort_recursivo(int vetor[], int inicio, int fim, ll *comparacoes, ll *
     }
 }
 
-void quickSort(int vetor[], int tam) {
+void quickSort(int vetor[], int tam, ll *comparacoes, ll *movimentos) {
 
-    ll comparacoes = 0, movimentos = 0;
-    quickSort_recursivo(vetor, 0, tam - 1, &comparacoes, &movimentos);
-
-    printf("Número de Comparações: %lld\n", comparacoes);
-    printf("Número de Movimentos: %lld\n", movimentos);
+    quickSort_recursivo(vetor, 0, tam - 1, comparacoes, movimentos);
 }
 // =-=-=- Fim do Espaço QuickSort -=-=-=
 
@@ -290,21 +268,17 @@ void heapBuild(int vetor[], int tam, ll *comparacoes, ll *movimentos) {
 
 }
 
-void heapSort(int vetor[], int tam) {
+void heapSort(int vetor[], int tam, ll *comparacoes, ll *movimentos) {
 
-    ll comparacoes = 0, movimentos = 0;
-    heapBuild(vetor, tam, &comparacoes, &movimentos);
+    heapBuild(vetor, tam, comparacoes, movimentos);
 
     for (int i = tam - 1; i >= 0; i--) {
 
         swap(&vetor[0], &vetor[i]);
-        movimentos += 3;
+        (*movimentos) += 3;
 
-        heapDown(vetor, 0, i, &comparacoes, &movimentos);
+        heapDown(vetor, 0, i, comparacoes, movimentos);
     }
-
-    printf("Número de Comparações: %lld\n", comparacoes);
-    printf("Número de Movimentos: %lld\n", movimentos);
 }
 // =-=-=- Fim do Espaço heapSort -=-=-=
 
@@ -390,26 +364,20 @@ void mergeSort_recursivo(int vetor[], int l, int r, ll *comparacoes, ll *movimen
     }
 }
 
-void mergeSort(int vetor[], int tam) {
+void mergeSort(int vetor[], int tam, ll *comparacoes, ll *movimentos) {
 
-    ll comparacoes = 0, movimentos = 0;
-    mergeSort_recursivo(vetor, 0, tam - 1, &comparacoes, &movimentos);
-
-    printf("Número de Comparações: %lld\n", comparacoes);
-    printf("Número de Movimentos: %lld\n", movimentos);
+    mergeSort_recursivo(vetor, 0, tam - 1, comparacoes, movimentos);
 }
 // =-=-=- Fim do Espaço MergeSort -=-=-=
 
 
 // =-=-=- Espaço Contagem dos Menores -=-=-=
-void contagemDosMenores(int vetor[], int tam) {
-
-    ll movimentos = 0, comparacoes = 0;
+void contagemDosMenores(int vetor[], int tam, ll *comparacoes, ll *movimentos) {
 
     int maior = vetor[0];
     for (int i = 1; i < tam; i++) {
 
-        comparacoes++; 
+        (*comparacoes)++; 
         if (vetor[i] > maior) 
             maior = vetor[i];
     }
@@ -420,7 +388,7 @@ void contagemDosMenores(int vetor[], int tam) {
     for (int i = 0; i < tam; i++) {
 
         contagem[vetor[i]]++;
-        movimentos++;
+        (*movimentos)++;
     }
 
     int index = 0;
@@ -430,13 +398,11 @@ void contagemDosMenores(int vetor[], int tam) {
 
             vetor[index++] = i;
             contagem[i]--;
-            movimentos++;
+            (*movimentos)++;
         }
     }
 
     free(contagem);
-    printf("Número de Comparações: %lld (para achar o maior elemento do vetor)\n", comparacoes);
-    printf("Número de Movimentos: %lld (inserção de valores no vetor de contagem e no vetor original)\n", movimentos);
 }
 // =-=-=- Fim do Espaço Contagem dos Menores -=-=-=
 
@@ -448,9 +414,7 @@ int get_digit(int x, int exp) {
     return ans;
 }
 
-void radixSort(int vetor[], int tam) {
-
-    ll movimentos = 0, comparacoes = 0;
+void radixSort(int *vetor, int tam, ll *comparacoes, ll *movimentos) {
 
     FILA *filas[10];
     for (int i = 0; i < 10; i++) 
@@ -461,7 +425,7 @@ void radixSort(int vetor[], int tam) {
     for (int i = 0; i < tam; i++) {
 
         maior = (vetor[i] > maior) ? vetor[i] : maior;
-        comparacoes++;
+        (comparacoes)++;
     }
 
     int d;
@@ -473,7 +437,7 @@ void radixSort(int vetor[], int tam) {
             d = get_digit(vetor[j], exp);
 
             fila_inserir(filas[d], vetor[j]);
-            movimentos++;
+            (*movimentos)++;
         }
 
         //Esvaziando a fila
@@ -483,7 +447,7 @@ void radixSort(int vetor[], int tam) {
             while (!fila_vazia(filas[j])) {
                 
                 vetor[id] = fila_remover(filas[j]);
-                movimentos++;
+                (*movimentos)++;
 
                 id++;
             }
@@ -495,8 +459,5 @@ void radixSort(int vetor[], int tam) {
         while (!fila_vazia(filas[i])) fila_remover(filas[i]);
         free(filas[i]);
     }
-
-    printf("Número de Comparações: %lld (para achar o maior elemento do vetor)\n", comparacoes);
-    printf("Número de Movimentos: %lld (inserção de valores na fila e no vetor)\n", movimentos);
 }
     
