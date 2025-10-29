@@ -1,5 +1,6 @@
 #include "fila.c"
 #include <stdlib.h>
+#include <string.h>
 
 typedef long long ll;
 
@@ -374,35 +375,37 @@ void mergeSort(int vetor[], int tam, ll *comparacoes, ll *movimentos) {
 // =-=-=- Espaço Contagem dos Menores -=-=-=
 void contagemDosMenores(int vetor[], int tam, ll *comparacoes, ll *movimentos) {
 
-    int maior = vetor[0];
-    for (int i = 1; i < tam; i++) {
-
-        (*comparacoes)++; 
-        if (vetor[i] > maior) 
-            maior = vetor[i];
-    }
-
-    //Calloc é útil, pois inicializa o vetor com 0's
-    int* contagem = (int*) calloc(maior + 1, sizeof(int));
+    int menores[tam];
+    memset(menores, 0, sizeof(menores));
 
     for (int i = 0; i < tam; i++) {
+        for (int j = i-1; j >= 0; j--) {
 
-        contagem[vetor[i]]++;
-        (*movimentos)++;
-    }
+            (*comparacoes)++;
+            if (vetor[j] < vetor[i])
+                menores[i]++;
 
-    int index = 0;
-    for (int i = 0; i <= maior; i++) {
-
-        while (contagem[i] > 0) {
-
-            vetor[index++] = i;
-            contagem[i]--;
-            (*movimentos)++;
+            else if (vetor[j] > vetor[i])
+                menores[j]++;
         }
     }
 
-    free(contagem);
+    int ord[tam];
+    memset(ord, -1, sizeof(ord)); //Funciona porque vamos trabalhar com número positivos para fazer testes
+
+    //A contagem de menores é o index do número 
+    for (int i = 0; i < tam; i++) {
+
+        int pos = menores[i];
+
+        while (ord[pos] != -1) pos++; //Lida com repetições
+        ord[pos] = vetor[i]; 
+        
+        (*movimentos)++;
+    }
+
+    for (int i = 0; i < tam; i++)
+        vetor[i] = ord[i], (*movimentos)++;
 }
 // =-=-=- Fim do Espaço Contagem dos Menores -=-=-=
 
