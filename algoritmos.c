@@ -428,11 +428,11 @@ void radixSort(int *vetor, int tam, ll *comparacoes, ll *movimentos) {
     for (int i = 0; i < tam; i++) {
 
         maior = (vetor[i] > maior) ? vetor[i] : maior;
-        (comparacoes)++;
+        (*comparacoes)++;
     }
 
     int d;
-    for (int exp = 1; exp <= maior; exp *= 10) {
+    for (int exp = 1; maior / exp > 0; exp *= 10) {
 
         //Inserindo na fila com base no dígito
         for (int j = 0; j < tam; j++) {
