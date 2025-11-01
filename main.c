@@ -4,7 +4,7 @@
 #include <time.h>
 #include "algoritmos.c"
 
-const int max_int = 1e8;
+const int max_int = 2e9;
 
 void menu0() {
 
@@ -90,7 +90,7 @@ int main() {
             case 3: tam = 10000; break;
             case 4: tam = 100000; break;
         }
-        int *vet = (int*) malloc(sizeof(int) * tam); //Alocando na heap para evitar seg fault (principalmente no ContagemDosMenores)
+        int *vet = (int*) malloc(sizeof(int) * tam); 
         
 
 
