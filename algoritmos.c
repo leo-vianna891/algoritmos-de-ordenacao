@@ -424,7 +424,7 @@ void radixSort(int *vetor, int tam, ll *comparacoes, ll *movimentos) {
         filas[i] = fila_criar();
 
     //Achando o maior elemento
-    int maior = -1; //radix não serve para números negativos
+    int maior = -1; //usaremos o radix apenas para números positivos
     for (int i = 0; i < tam; i++) {
 
         maior = (vetor[i] > maior) ? vetor[i] : maior;
