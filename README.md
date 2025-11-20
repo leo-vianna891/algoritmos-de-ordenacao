@@ -17,8 +17,8 @@ O projeto contempla 9 algoritmos distintos:
 1.  **Bubble Sort**
 2.  **Selection Sort**
 3.  **Insertion Sort**
-4.  **Shell Sort** (Utilizando a sequência de incrementos de Knuth: $h = 3h + 1$)
-5.  **Quick Sort** (Otimizado com pivo "Mediana de 3")
+4.  **Shell Sort** (Utilizando a sequência de incrementos de Knuth: $h_i = 3h_{i+1} + 1$)
+5.  **Quick Sort** (Otimizado com pivô "Mediana de 3")
 6.  **Heap Sort**
 7.  **Merge Sort**
 8.  **Contagem dos Menores**
@@ -87,7 +87,7 @@ Tempo (médio) de execução: 0.014500 segundo(s).
 ```
 
 ## 📝 Detalhes de Implementação
-**Tipos de Dados:** Os contadores de métricas utilizam **`long long`** para evitar overflow em testes com *N=100.000* ou algoritmos quadráticos.
+**Tipos de Dados:** Os contadores de métricas utilizam **`long long`** para evitar overflow em testes com *N=100.000* em algoritmos quadráticos.
 
 **Mediana de 3:** O Quick Sort foi implementado com a técnica de mediana de 3 para escolha do pivô, visando mitigar o pior caso em vetores já ordenados ou reversos.
 
