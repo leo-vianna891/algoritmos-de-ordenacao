@@ -2,6 +2,8 @@
 
 Este projeto implementa e compara o desempenho de diversos algoritmos de ordenação (sorting), analisando métricas de tempo de execução, número de comparações e movimentações de registros. O sistema permite a execução de testes em vetores de diferentes tamanhos e estados iniciais.
 
+Abaixo, você pode ver uma descrição de como usar este sistema. [Neste relatório](https://drive.google.com/file/d/1kRFEG9y0jYnj2zJ_D0cG0hG1A-ViBHCj/view?usp=sharing), é possível ver uma análise mais aprofundada do trabalho, que inclui uma análise das complexidades temporais dos diferentes algoritmos de ordenação.
+
 ## 📂 Estrutura do Projeto
 
 O código fonte está dividido em três módulos principais:
